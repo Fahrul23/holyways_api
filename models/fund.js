@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
         fund.belongsToMany(models.user,{
             as: "users",
-            throught: {
+            through: {
                 model: "userDonate",
                 as: "bridge"
             },
