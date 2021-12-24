@@ -66,3 +66,52 @@ exports.Login = async (req, res) => {
         })    
     }
 }
+
+exports.Register = async (req, res) => {
+    const email = req.body.email
+    const password = req.body.password
+    const fullName = req.body.fullName
+    // Validate input user
+    const schema = Joi.object({
+        email: Joi.string().email().required(),
+        password: Joi.string().required(),
+        fullName: Joi.string().min(3).required()
+    })
+    const {error} = schema.validate({email,password,fullName})
+
+    if(error){
+        return res.status(400).send({
+            status: "failed",
+            message: error.details[0].message
+        })
+    }
+    
+    try {
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(password, salt)
+
+        const newUser = await user.create({
+            fullName, email, hashedPassword
+        })
+
+        // create Token JWT
+        const dataToken = {id: newUser.id}
+        var token = jwt.sign(dataToken,process.env.API_KEY)
+
+        res.status(201).send({
+            status: "success",
+            data: {user: {
+                fullName: newUser.fullName,
+                token
+            }}
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            status: "failed",
+            message: "internal server error"
+        })       
+    }
+    
+}
