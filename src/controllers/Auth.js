@@ -91,7 +91,9 @@ exports.Register = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt)
 
         const newUser = await user.create({
-            fullName, email, hashedPassword
+            fullName, 
+            email, 
+            password: hashedPassword
         })
 
         // create Token JWT
