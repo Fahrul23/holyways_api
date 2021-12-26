@@ -8,6 +8,8 @@ const PORT = process.env.PORT
 app.use(express.json())
 
 app.use('/api/v1', Routes)
+app.use('/uploads', express.static('uploads'))
+
 
 app.listen(PORT, () => {
     console.log(`server running at http://localhost:${PORT}`)
