@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
                 model: "userDonate",
                 as: "bridge"
             },
-            foreignKey: "userId"
+            foreignKey: "fundId"
         })
     }
   };
