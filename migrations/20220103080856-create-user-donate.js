@@ -11,20 +11,20 @@ module.exports = {
       fundId: {
         type: Sequelize.INTEGER,
         references: {
-            model: 'funds',
-            key: 'id'
-        },
-        onUpdate: "CASCADE",
-        onDelete: 'CASCADE'
+            model: "funds",
+            key: "id",
+          },
+          onUpdate: "CASCADE",
+          onDelete: "CASCADE",
       },
       userId: {
         type: Sequelize.INTEGER,
         references: {
-            model: 'users',
-            key: 'id'
-        },
-        onUpdate: "CASCADE",
-        onDelete: 'CASCADE'
+            model: "users",
+            key: "id",
+          },
+          onUpdate: "CASCADE",
+          onDelete: "CASCADE",
       },
       donateAmount: {
         type: Sequelize.INTEGER
@@ -37,12 +37,10 @@ module.exports = {
       },
       createdAt: {
         allowNull: false,
-        defaultValue: Sequelize.fn('now'),
         type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
-        defaultValue: Sequelize.fn('now'),
         type: Sequelize.DATE
       }
     });
