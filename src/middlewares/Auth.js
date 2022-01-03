@@ -14,7 +14,7 @@ exports.Auth = async (req, res, next) => {
 
     try {
         const verified = jwt.verify(token, process.env.API_KEY)
-        res.user = verified
+        req.user = verified
         next();
 
     } catch (error) {

@@ -11,15 +11,22 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-        fund.belongsToMany(models.user,{
+        fund.belongsToMany(models.user, {
             as: "users",
             through: {
-                model: "userDonate",
-                as: "bridge"
+            model: "userFund",
+            as: "bridge",
             },
-            foreignKey: "fundId"
-        })
+            foreignKey: "fundId",
+        });
+        fund.hasMany(models.userDonate, {
+            as: "userDonate",
+            foreignKey: {
+              name: "fundId",
+            },
+        });
     }
+    
   };
   fund.init({
     title: DataTypes.STRING,

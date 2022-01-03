@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "12174964",
-    "database": "holyways",
+    "database": "db_holyways",
     "host": "localhost",
     "dialect": "mysql"
   },
