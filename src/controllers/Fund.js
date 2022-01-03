@@ -346,6 +346,72 @@ exports.editDonateFund = async (req, res) => {
     }
 }
 
+exports.addUserDonate = async( req, res) => {
+    const {fundId, userId} = req.params
+    const data = req.body
+    const schema = Joi.object({
+        fundId: Joi.number().required(),
+        userId: Joi.number().required(),
+        donateAmount: Joi.number().min(3).required(),
+    })
+    const {error} = schema.validate(data)
+
+    if(error) {
+        return res.status(400).send({
+            status: "error",
+            message: error.details[0].message
+        })
+    }
+    try {
+        const data = userDonate.create({
+            fundId,
+            userId,
+            donateAmount: req.body.donateAmount,
+            proofAttachment: req.file.filename
+        })
+        
+        res.status(201).send({
+            status: "success",
+            data
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            status: "failed",
+            message: "internal server error"
+        })          
+    }
+}
+exports.getFundsByUserId = async (req, res) => {
+    let {userId} = req.params
+    try {
+        let response = await user.findOne({
+            where: {id : userId},
+            include: [
+                {
+                    model: fund,
+                    as: "funds",       
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt']
+                    }
+                }
+            ],
+            attributes: {
+                exclude: ['createdAt', 'updatedAt']
+            }
+        })
+        return res.status(200).send({
+            status: "success",
+            data : response
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            status: "failed",
+            message: "internal server error"
+        })
+    }
+}
 
 
 
